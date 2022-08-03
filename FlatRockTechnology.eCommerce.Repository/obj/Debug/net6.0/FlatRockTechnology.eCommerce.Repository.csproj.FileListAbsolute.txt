@@ -1,0 +1,17 @@
+C:\Users\SvetoslavUzunov\Documents\svetoslav-uzunov\.Net Training\FlatRockTechnology.eCommerce\FlatRockTechnology.eCommerce.Repository\bin\Debug\net6.0\FlatRockTechnology.eCommerce.Core.dll
+C:\Users\SvetoslavUzunov\Documents\svetoslav-uzunov\.Net Training\FlatRockTechnology.eCommerce\FlatRockTechnology.eCommerce.Repository\bin\Debug\net6.0\FlatRockTechnology.eCommerce.DataLayer.dll
+C:\Users\SvetoslavUzunov\Documents\svetoslav-uzunov\.Net Training\FlatRockTechnology.eCommerce\FlatRockTechnology.eCommerce.Repository\bin\Debug\net6.0\FlatRockTechnology.eCommerce.Core.pdb
+C:\Users\SvetoslavUzunov\Documents\svetoslav-uzunov\.Net Training\FlatRockTechnology.eCommerce\FlatRockTechnology.eCommerce.Repository\bin\Debug\net6.0\FlatRockTechnology.eCommerce.DataLayer.pdb
+C:\Users\SvetoslavUzunov\Documents\svetoslav-uzunov\.Net Training\FlatRockTechnology.eCommerce\FlatRockTechnology.eCommerce.Repository\obj\Debug\net6.0\FlatRockTechnology.eCommerce.Repository.csproj.AssemblyReference.cache
+C:\Users\SvetoslavUzunov\Documents\svetoslav-uzunov\.Net Training\FlatRockTechnology.eCommerce\FlatRockTechnology.eCommerce.Repository\obj\Debug\net6.0\FlatRockTechnology.eCommerce.Repository.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\SvetoslavUzunov\Documents\svetoslav-uzunov\.Net Training\FlatRockTechnology.eCommerce\FlatRockTechnology.eCommerce.Repository\obj\Debug\net6.0\FlatRockTechnology.eCommerce.Repository.AssemblyInfoInputs.cache
+C:\Users\SvetoslavUzunov\Documents\svetoslav-uzunov\.Net Training\FlatRockTechnology.eCommerce\FlatRockTechnology.eCommerce.Repository\obj\Debug\net6.0\FlatRockTechnology.eCommerce.Repository.AssemblyInfo.cs
+C:\Users\SvetoslavUzunov\Documents\svetoslav-uzunov\.Net Training\FlatRockTechnology.eCommerce\FlatRockTechnology.eCommerce.Repository\obj\Debug\net6.0\FlatRockTechnology.eCommerce.Repository.csproj.CoreCompileInputs.cache
+C:\Users\SvetoslavUzunov\Documents\svetoslav-uzunov\.Net Training\FlatRockTechnology.eCommerce\FlatRockTechnology.eCommerce.Repository\obj\Debug\net6.0\FlatRockTechnology.eCommerce.Repository.csproj.CopyComplete
+C:\Users\SvetoslavUzunov\Documents\svetoslav-uzunov\.Net Training\FlatRockTechnology.eCommerce\FlatRockTechnology.eCommerce.Repository\obj\Debug\net6.0\FlatRockTechnology.eCommerce.Repository.dll
+C:\Users\SvetoslavUzunov\Documents\svetoslav-uzunov\.Net Training\FlatRockTechnology.eCommerce\FlatRockTechnology.eCommerce.Repository\obj\Debug\net6.0\refint\FlatRockTechnology.eCommerce.Repository.dll
+C:\Users\SvetoslavUzunov\Documents\svetoslav-uzunov\.Net Training\FlatRockTechnology.eCommerce\FlatRockTechnology.eCommerce.Repository\obj\Debug\net6.0\FlatRockTechnology.eCommerce.Repository.pdb
+C:\Users\SvetoslavUzunov\Documents\svetoslav-uzunov\.Net Training\FlatRockTechnology.eCommerce\FlatRockTechnology.eCommerce.Repository\bin\Debug\net6.0\FlatRockTechnology.eCommerce.Repository.deps.json
+C:\Users\SvetoslavUzunov\Documents\svetoslav-uzunov\.Net Training\FlatRockTechnology.eCommerce\FlatRockTechnology.eCommerce.Repository\bin\Debug\net6.0\FlatRockTechnology.eCommerce.Repository.dll
+C:\Users\SvetoslavUzunov\Documents\svetoslav-uzunov\.Net Training\FlatRockTechnology.eCommerce\FlatRockTechnology.eCommerce.Repository\bin\Debug\net6.0\FlatRockTechnology.eCommerce.Repository.pdb
+C:\Users\SvetoslavUzunov\Documents\svetoslav-uzunov\.Net Training\FlatRockTechnology.eCommerce\FlatRockTechnology.eCommerce.Repository\obj\Debug\net6.0\ref\FlatRockTechnology.eCommerce.Repository.dll

@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.7" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
+    <PackageReference Include="System.Runtime.Caching" Version="6.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\FlatRockTechnology.eCommerce.Core\FlatRockTechnology.eCommerce.Core.csproj" />
+    <ProjectReference Include="..\FlatRockTechnology.eCommerce.Data\FlatRockTechnology.eCommerce.DataLayer.csproj" />
+    <ProjectReference Include="..\FlatRockTechnology.eCommerce.Repository\FlatRockTechnology.eCommerce.Repository.csproj" />
+  </ItemGroup>
+
+</Project>
