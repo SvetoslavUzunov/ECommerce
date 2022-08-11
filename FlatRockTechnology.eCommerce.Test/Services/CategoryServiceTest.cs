@@ -25,7 +25,7 @@ namespace FlatRockTechnology.eCommerce.Test.Services
 		}
 
 		[TestMethod]
-		public async Task GetByIdMethodShoutReturnCorrectCategory()
+		public async Task GetByIdMethodShoutReturnCategory()
 		{
 			categoryEntity = CreateCategoryEntity();
 
@@ -39,11 +39,11 @@ namespace FlatRockTechnology.eCommerce.Test.Services
 		}
 
 		[TestMethod]
-		public async Task GetByIdMethodShoutThrowCorrectException()
+		public async Task GetByIdMethodShoutThrowException()
 			=> await Assert.ThrowsExceptionAsync<ItemNotFoundException>(async () => await categoryService.GetByIdAsync(GetCategoryId()));
 
 		[TestMethod]
-		public async Task GetAllMethodShoutReturnCorrectCategories()
+		public async Task GetAllMethodShoutReturnCategories()
 		{
 			const int CountCategories = 5;
 
@@ -66,11 +66,11 @@ namespace FlatRockTechnology.eCommerce.Test.Services
 		}
 
 		[TestMethod]
-		public async Task GetAllMethodShoutReturnCorrectException()
+		public async Task GetAllMethodShoutReturnException()
 			=> await Assert.ThrowsExceptionAsync<EmptyCollectionException>(async () => await categoryService.GetAllAsync());
 
 		[TestMethod]
-		public async Task CreateMethodShoutCorrectCreateCategory()
+		public async Task CreateMethodShoutCreateCategory()
 		{
 			categoryEntity = CreateCategoryEntity();
 
@@ -85,7 +85,22 @@ namespace FlatRockTechnology.eCommerce.Test.Services
 		}
 
 		[TestMethod]
-		public async Task EditMethodShoutCorrectCreateCategory()
+		public async Task CreateMethodShoutThrowExceptionWhenCategoryAlreadyExist()
+		{
+			var categoryEntity = CreateCategoryEntity();
+
+			categoryRepositoryMock
+				.Setup(x => x.CreateAsync(It.IsAny<CategoryEntity>()));
+
+			categoryRepositoryMock
+				.Setup(x => x.GetByIdAsync(It.IsAny<Guid>()))
+				.ReturnsAsync(categoryEntity);
+
+			await Assert.ThrowsExceptionAsync<ItemAlreadyExistException>(async () => await categoryService.CreateAsync(CreateCategoryModel()));
+		}
+
+		[TestMethod]
+		public async Task EditMethodShoutCreateCategory()
 		{
 			const string EditCategoryName = "IChangedYourName";
 
@@ -93,6 +108,10 @@ namespace FlatRockTechnology.eCommerce.Test.Services
 
 			categoryRepositoryMock
 				.Setup(x => x.Edit(categoryEntity));
+
+			categoryRepositoryMock
+				.Setup(x => x.GetByIdAsync(It.IsAny<Guid>()))
+				.ReturnsAsync(categoryEntity);
 
 			categoryEntity.Name = EditCategoryName;
 			var categoryModel = CreateCategoryModel();
@@ -103,7 +122,11 @@ namespace FlatRockTechnology.eCommerce.Test.Services
 		}
 
 		[TestMethod]
-		public async Task DeleteByIdMethodShoutCorrectDeleteCategory()
+		public async Task EditMethodShoutThrowExceptionWhenCategoryIsNull()
+			=> await Assert.ThrowsExceptionAsync<ItemNotFoundException>(async () => await categoryService.EditAsync(CreateCategoryModel()));
+
+		[TestMethod]
+		public async Task DeleteByIdMethodShoutDeleteCategory()
 		{
 			categoryEntity = CreateCategoryEntity();
 
@@ -114,6 +137,19 @@ namespace FlatRockTechnology.eCommerce.Test.Services
 			await categoryService.DeleteByIdAsync(categoryEntity.Id);
 
 			unitOfWorkMock.Verify(x => x.CompleteAsync(), Times.Once);
+		}
+
+		[TestMethod]
+		public async Task DeleteMethodShoutThrowExceptionWhenCategoryIsNull()
+			=> await Assert.ThrowsExceptionAsync<ItemNotFoundException>(async () => await categoryService.DeleteByIdAsync(GetCategoryId()));
+
+		[TestMethod]
+		public async Task DeleteMethodShoutThrowExceptionWhenCategoryAlreadyIsDeleted()
+		{
+			var categoryModel = CreateCategoryModel();
+			categoryModel.IsActive = false;
+
+			await Assert.ThrowsExceptionAsync<ItemNotFoundException>(async () => await categoryService.DeleteByIdAsync(categoryModel.Id));
 		}
 
 		private CategoryModel CreateCategoryModel()

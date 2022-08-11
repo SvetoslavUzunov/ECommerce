@@ -30,6 +30,8 @@ namespace FlatRockTechnology.eCommerce.Service.Services
 			return new OrderModel
 			{
 				Id = order.Id,
+				Quantity = order.Quantity,
+				TotalPrice = order.TotalPrice,
 				IsActive = order.IsActive
 			};
 		}
@@ -46,6 +48,8 @@ namespace FlatRockTechnology.eCommerce.Service.Services
 			return orders.Select(o => new OrderModel
 			{
 				Id = o.Id,
+				Quantity = o.Quantity,
+				TotalPrice = o.TotalPrice,
 				IsActive = o.IsActive
 			})
 			.ToList();
@@ -53,9 +57,17 @@ namespace FlatRockTechnology.eCommerce.Service.Services
 
 		public async Task<OrderModel> CreateAsync(OrderModel orderModel)
 		{
-			var order = new OrderEntity
+			var order = await orderRepository.GetByIdAsync(orderModel.Id);
+
+			if (order != null)
 			{
-				Id = orderModel.Id
+				throw new ItemAlreadyExistException();
+			}
+
+			order = new OrderEntity
+			{
+				Quantity = orderModel.Quantity,
+				TotalPrice = orderModel.TotalPrice
 			};
 
 			await orderRepository.CreateAsync(order);
@@ -66,10 +78,16 @@ namespace FlatRockTechnology.eCommerce.Service.Services
 
 		public async Task<OrderModel> EditAsync(OrderModel orderModel)
 		{
-			var order = new OrderEntity
+			var order = await orderRepository.GetByIdAsync(orderModel.Id);
+
+			if (order == null)
 			{
-				Id = orderModel.Id
-			};
+				throw new ItemNotFoundException();
+			}
+
+			order.Id = orderModel.Id;
+			order.Quantity = orderModel.Quantity;
+			order.TotalPrice = orderModel.TotalPrice;
 
 			orderRepository.Edit(order);
 			await unitOfWork.CompleteAsync();

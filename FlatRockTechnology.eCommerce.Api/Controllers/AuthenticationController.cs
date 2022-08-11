@@ -18,16 +18,16 @@ namespace FlatRockTechnology.eCommerce.Api.Controllers
 
 		//[Authorize(Roles = RoleConstants.ClientRole)]
 		[HttpPost(WebConstants.ActionRoute)]
-		public Task Register([FromBody] UserRegistrationModel userModel)
-			=> authenticationService.RegisterAsync(userModel);
+		public Task Register([FromBody] UserRegistrationModel registrationModel)
+			=> authenticationService.RegisterAsync(registrationModel);
 
 		//[Authorize(Roles = RoleConstants.ClientRole)]
 		[HttpPost(WebConstants.ActionRoute)]
-		public Task<TokenModel> Login([FromBody] UserLoginModel userModel)
-			=> authenticationService.LoginAsync(userModel);
+		public Task<TokenModel> Login([FromBody] UserLoginModel loginModel)
+			=> authenticationService.LoginAsync(loginModel);
 
 		[HttpPost(WebConstants.ActionRoute)]
 		public Task<TokenModel> RefreshToken([FromBody] string refreshToken)
-			=> authenticationService.RefreshToken(refreshToken);
+			=> authenticationService.RefreshTokenAsync(refreshToken);
 	}
 }

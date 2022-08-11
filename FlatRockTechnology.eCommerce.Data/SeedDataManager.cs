@@ -88,7 +88,6 @@ namespace FlatRockTechnology.eCommerce.DataLayer
 					Email = userAdminEmail,
 					CreatedById = null
 				};
-
 				user.CreatedById = user.Id;
 
 				var isUserCreated = await userManager.CreateAsync(user, UserConstants.AdminUserPassword);
@@ -210,9 +209,11 @@ namespace FlatRockTechnology.eCommerce.DataLayer
 					new CategoryEntity
 					{
 						Id = categoryId,
-						Name = "Phones"
+						Name = "Phones",
+						ParentCategoryId = null
 					}
 				};
+				categories[0].ParentCategoryId = categoryId;
 
 				await data.Categories.AddRangeAsync(categories);
 			}

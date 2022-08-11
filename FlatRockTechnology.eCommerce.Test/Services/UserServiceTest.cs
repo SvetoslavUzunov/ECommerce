@@ -25,7 +25,7 @@ namespace FlatRockTechnology.eCommerce.Test.Services
 		}
 
 		[TestMethod]
-		public async Task GetByIdMethodShoutReturnCorrectUser()
+		public async Task GetByIdMethodShoutReturnUser()
 		{
 			// Arrange
 			userEntity = CreateUserEntity();
@@ -42,11 +42,11 @@ namespace FlatRockTechnology.eCommerce.Test.Services
 		}
 
 		[TestMethod]
-		public async Task GetByIdMethodShoutThrowCorrectException()
+		public async Task GetByIdMethodShoutThrowException()
 			=> await Assert.ThrowsExceptionAsync<ItemNotFoundException>(async () => await userService.GetByIdAsync(GetUserId()));
 
 		[TestMethod]
-		public async Task GetAllMethodShoutReturnCorrectUsers()
+		public async Task GetAllMethodShoutReturnUsers()
 		{
 			const int CountUsers = 5;
 
@@ -69,7 +69,7 @@ namespace FlatRockTechnology.eCommerce.Test.Services
 		}
 
 		[TestMethod]
-		public async Task GetAllMethodShoutReturnCorrectException()
+		public async Task GetAllMethodShoutReturnException()
 			=> await Assert.ThrowsExceptionAsync<EmptyCollectionException>(async () => await userService.GetAllAsync());
 
 		[TestMethod]
@@ -88,7 +88,22 @@ namespace FlatRockTechnology.eCommerce.Test.Services
 		}
 
 		[TestMethod]
-		public async Task EditMethodShoutCorrectEditUser()
+		public async Task CreateMethodShoutThrowExceptionWhenUserAlreadyExist()
+		{
+			var userEntity = CreateUserEntity();
+
+			userRepositoryMock
+				.Setup(x => x.CreateAsync(It.IsAny<UserEntity>()));
+
+			userRepositoryMock
+				.Setup(x => x.GetByIdAsync(It.IsAny<Guid>()))
+				.ReturnsAsync(userEntity);
+
+			await Assert.ThrowsExceptionAsync<ItemAlreadyExistException>(async () => await userService.CreateAsync(CreateUserModel()));
+		}
+
+		[TestMethod]
+		public async Task EditMethodShoutEditUser()
 		{
 			const string EditUserName = "IChangedYourUserName";
 
@@ -97,6 +112,10 @@ namespace FlatRockTechnology.eCommerce.Test.Services
 			userRepositoryMock
 				.Setup(x => x.Edit(userEntity));
 
+			userRepositoryMock
+				.Setup(x => x.GetByIdAsync(It.IsAny<Guid>()))
+				.ReturnsAsync(userEntity);
+
 			userEntity.UserName = EditUserName;
 			var userModel = CreateUserModel();
 
@@ -104,6 +123,10 @@ namespace FlatRockTechnology.eCommerce.Test.Services
 
 			Assert.AreEqual(userEntity.UserName, editedUser.UserName);
 		}
+
+		[TestMethod]
+		public async Task EditMethodShoutThrowExceptionWhenUserIsNull()
+			=> await Assert.ThrowsExceptionAsync<ItemNotFoundException>(async () => await userService.EditAsync(CreateUserModel()));
 
 		[TestMethod]
 		public async Task DeleteByIdMethodShoutCorrectDeleteUser()
@@ -117,6 +140,19 @@ namespace FlatRockTechnology.eCommerce.Test.Services
 			await userService.DeleteByIdAsync(userEntity.Id);
 
 			unitOfWorkMock.Verify(x => x.CompleteAsync(), Times.Once);
+		}
+
+		[TestMethod]
+		public async Task DeleteMethodShoutThrowExceptionWhenUserIsNull()
+			=> await Assert.ThrowsExceptionAsync<ItemNotFoundException>(async () => await userService.DeleteByIdAsync(GetUserId()));
+
+		[TestMethod]
+		public async Task DeleteMethodShoutThrowExceptionWhenUserAlreadyIsDeleted()
+		{
+			var userModel = CreateUserModel();
+			userModel.IsActive = false;
+
+			await Assert.ThrowsExceptionAsync<ItemNotFoundException>(async () => await userService.DeleteByIdAsync(userModel.Id));
 		}
 
 		private UserModel CreateUserModel()

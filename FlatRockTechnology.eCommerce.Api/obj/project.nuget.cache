@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "X33K48JFxf4oCDp5Ph0Etzcdc55+6XYUNtanRrMvbNIDt/l2VHc/+3roKKl6++PStjn75q9Wwd47JgglV8I3Ig==",
+  "dgSpecHash": "BGyGcLDqtDMsGzqnOHrwTy7WkRxAfRD3Rj5M1wmCPNIAyT/7yHhQeEsBJJMtHHyGPXPEho0X1dR/GBrVfrx7bA==",
   "success": true,
   "projectFilePath": "C:\\Users\\SvetoslavUzunov\\Documents\\svetoslav-uzunov\\.Net Training\\FlatRockTechnology.eCommerce\\FlatRockTechnology.eCommerce.Api\\FlatRockTechnology.eCommerce.Api.csproj",
   "expectedPackageFiles": [
@@ -169,7 +169,7 @@
       "code": "NU1701",
       "level": "Warning",
       "warningLevel": 1,
-      "message": "Package 'Microsoft.AspNet.WebApi.Core 5.2.9' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8' instead of the project target framework 'net6.0'. This package may not be fully compatible with your project.",
+      "message": "Package 'Microsoft.AspNet.WebApi.Core 5.2.9' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1' instead of the project target framework 'net6.0'. This package may not be fully compatible with your project.",
       "libraryId": "Microsoft.AspNet.WebApi.Core",
       "targetGraphs": [
         "net6.0"

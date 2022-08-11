@@ -1,6 +1,6 @@
 ﻿namespace FlatRockTechnology.eCommerce.Core.Models
 {
-	public class BaseModel
+	public abstract class BaseModel
 	{
 		public BaseModel()
 		{

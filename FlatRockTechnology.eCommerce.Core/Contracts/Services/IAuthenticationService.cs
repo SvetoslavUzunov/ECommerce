@@ -9,6 +9,6 @@ namespace FlatRockTechnology.eCommerce.Core.Contracts.Services
 
 		public Task<TokenModel> LoginAsync(UserLoginModel userModel);
 
-		public Task<TokenModel> RefreshToken(string refreshToken);
+		public Task<TokenModel> RefreshTokenAsync(string refreshToken);
 	}
 }

@@ -8,7 +8,8 @@ using FlatRockTechnology.eCommerce.Core.Entities;
 using FlatRockTechnology.eCommerce.Core.Contracts.Services;
 using FlatRockTechnology.eCommerce.Core.Exceptions;
 using FlatRockTechnology.eCommerce.Core.Models.Token;
-using FlatRockTechnology.eCommerce.Core.Providers;
+using FlatRockTechnology.eCommerce.Core.Provider;
+using FlatRockTechnology.eCommerce.Core.Constants;
 
 namespace FlatRockTechnology.eCommerce.Service.Services
 {
@@ -26,9 +27,6 @@ namespace FlatRockTechnology.eCommerce.Service.Services
 			this.configuration = configuration;
 			this.cacheService = cacheService;
 		}
-
-		public async Task<IList<string>> GetUserRoles(UserEntity user)
-			=> await userManager.GetRolesAsync(user);
 
 		public async Task<TokenModel> GenerateToken(UserEntity user)
 		{
@@ -59,9 +57,12 @@ namespace FlatRockTechnology.eCommerce.Service.Services
 			return userId;
 		}
 
+		public async Task<IList<string>> GetUserRoles(UserEntity user)
+			=> await userManager.GetRolesAsync(user);
+
 		private async Task<string> GenerateAccessToken(UserEntity user)
 		{
-			List<Claim> claims = new()
+			var claims = new List<Claim>()
 			{
 				new Claim(ClaimTypes.Name, user.UserName)
 			};
@@ -79,7 +80,7 @@ namespace FlatRockTechnology.eCommerce.Service.Services
 			var tokenOptions = new JwtSecurityToken
 			(
 				claims: claims,
-				expires: DateTime.Now.AddDays(1),
+				expires: DateTime.Now.AddDays(TokenConstants.CountDays),
 				signingCredentials: credentials
 			);
 
@@ -89,6 +90,7 @@ namespace FlatRockTechnology.eCommerce.Service.Services
 		private static string GenerateRefreshToken()
 		{
 			var randomNumber = new byte[32];
+
 			using var randomNumberGenerator = RandomNumberGenerator.Create();
 			randomNumberGenerator.GetBytes(randomNumber);
 

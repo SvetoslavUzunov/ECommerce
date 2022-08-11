@@ -57,7 +57,14 @@ namespace FlatRockTechnology.eCommerce.Service.Services
 
 		public async Task<CategoryModel> CreateAsync(CategoryModel categoryModel)
 		{
-			var category = new CategoryEntity
+			var category = await categoryRepository.GetByIdAsync(categoryModel.Id);
+
+			if (category != null)
+			{
+				throw new ItemAlreadyExistException();
+			}
+
+			category = new CategoryEntity
 			{
 				Name = categoryModel.Name
 			};
@@ -70,12 +77,16 @@ namespace FlatRockTechnology.eCommerce.Service.Services
 
 		public async Task<CategoryModel> EditAsync(CategoryModel categoryModel)
 		{
-			var category = new CategoryEntity
+			var category = await categoryRepository.GetByIdAsync(categoryModel.Id);
+
+			if (category == null)
 			{
-				Id = categoryModel.Id,
-				Name = categoryModel.Name,
-				Description = categoryModel.Description
-			};
+				throw new ItemNotFoundException();
+			}
+
+			category.Id = categoryModel.Id;
+			category.Name = categoryModel.Name;
+			category.Description = categoryModel.Description;
 
 			categoryRepository.Edit(category);
 			await unitOfWork.CompleteAsync();

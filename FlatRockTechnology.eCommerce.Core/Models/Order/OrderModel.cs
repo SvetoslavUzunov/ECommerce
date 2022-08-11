@@ -6,9 +6,9 @@ namespace FlatRockTechnology.eCommerce.Core.Models.Order
 {
 	public class OrderModel : BaseModel
 	{
-		public int Quantity { get; set; }
+		public int? Quantity { get; set; }
 
-		public decimal TotalPrice { get; set; }
+		public decimal? TotalPrice { get; set; }
 
 		public int StatusId { get; set; }
 

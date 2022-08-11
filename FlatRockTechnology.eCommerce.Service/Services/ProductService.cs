@@ -1,9 +1,9 @@
-﻿using FlatRockTechnology.eCommerce.Core.Models.Product;
-using FlatRockTechnology.eCommerce.Core.Contracts.Services;
+﻿using FlatRockTechnology.eCommerce.Core.Contracts.Services;
 using FlatRockTechnology.eCommerce.Core.Contracts.Repositories;
+using FlatRockTechnology.eCommerce.Core.Contracts.Patterns;
 using FlatRockTechnology.eCommerce.Core.Entities;
 using FlatRockTechnology.eCommerce.Core.Exceptions;
-using FlatRockTechnology.eCommerce.Core.Contracts.Patterns;
+using FlatRockTechnology.eCommerce.Core.Models.Product;
 
 namespace FlatRockTechnology.eCommerce.Service.Services
 {
@@ -31,7 +31,6 @@ namespace FlatRockTechnology.eCommerce.Service.Services
 			{
 				Id = product.Id,
 				Name = product.Name,
-				Price = product.Price,
 				Description = product.Description,
 				IsActive = product.IsActive
 			};
@@ -46,20 +45,26 @@ namespace FlatRockTechnology.eCommerce.Service.Services
 				throw new EmptyCollectionException();
 			}
 
-			return products.Select(p => new ProductModel
+			return products.Select(c => new ProductModel
 			{
-				Id = p.Id,
-				Name = p.Name,
-				Price = p.Price,
-				Description = p.Description,
-				IsActive = p.IsActive
+				Id = c.Id,
+				Name = c.Name,
+				Description = c.Description,
+				IsActive = c.IsActive
 			})
 			.ToList();
 		}
 
 		public async Task<ProductModel> CreateAsync(ProductModel productModel)
 		{
-			var product = new ProductEntity
+			var product = await productRepository.GetByIdAsync(productModel.Id);
+
+			if (product != null)
+			{
+				throw new ItemAlreadyExistException();
+			}
+
+			product = new ProductEntity
 			{
 				Name = productModel.Name,
 				Price = productModel.Price,
@@ -74,13 +79,17 @@ namespace FlatRockTechnology.eCommerce.Service.Services
 
 		public async Task<ProductModel> EditAsync(ProductModel productModel)
 		{
-			var product = new ProductEntity
+			var product = await productRepository.GetByIdAsync(productModel.Id);
+
+			if (product == null)
 			{
-				Id = productModel.Id,
-				Name = productModel.Name,
-				Price = productModel.Price,
-				Description = productModel.Description
-			};
+				throw new ItemNotFoundException();
+			}
+
+			product.Id = productModel.Id;
+			product.Name = productModel.Name;
+			product.Price = productModel.Price;
+			product.Description = productModel.Description;
 
 			productRepository.Edit(product);
 			await unitOfWork.CompleteAsync();

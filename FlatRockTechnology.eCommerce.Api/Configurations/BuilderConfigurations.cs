@@ -1,12 +1,12 @@
 ﻿using System.Text;
-using FlatRockTechnology.eCommerce.Core.Constants;
-using FlatRockTechnology.eCommerce.Core.Entities;
-using FlatRockTechnology.eCommerce.Core.Providers;
-using FlatRockTechnology.eCommerce.DataLayer;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using FlatRockTechnology.eCommerce.Core.Constants;
+using FlatRockTechnology.eCommerce.Core.Entities;
+using FlatRockTechnology.eCommerce.Core.Provider;
+using FlatRockTechnology.eCommerce.DataLayer;
 
 namespace FlatRockTechnology.eCommerce.Api.Configurations
 {

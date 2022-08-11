@@ -20,15 +20,15 @@ namespace FlatRockTechnology.eCommerce.Service.Services
 			this.tokenHandlerService = tokenHandlerService;
 		}
 
-		public async Task RegisterAsync(UserRegistrationModel userModel)
+		public async Task RegisterAsync(UserRegistrationModel registrationModel)
 		{
 			var user = new UserEntity
 			{
-				UserName = userModel.UserName,
-				Email = userModel.Email
+				UserName = registrationModel.UserName,
+				Email = registrationModel.Email
 			};
 
-			var isUserCreated = await userManager.CreateAsync(user, userModel.Password);
+			var isUserCreated = await userManager.CreateAsync(user, registrationModel.Password);
 
 			if (!isUserCreated.Succeeded)
 			{
@@ -43,16 +43,16 @@ namespace FlatRockTechnology.eCommerce.Service.Services
 			}
 		}
 
-		public async Task<TokenModel> LoginAsync(UserLoginModel userModel)
+		public async Task<TokenModel> LoginAsync(UserLoginModel loginModel)
 		{
-			var user = await userManager.FindByNameAsync(userModel.UserName);
+			var user = await userManager.FindByNameAsync(loginModel.UserName);
 
 			if (user == null)
 			{
 				throw new ValidationException(UserConstants.UserNotFound);
 			}
 
-			if (!await userManager.CheckPasswordAsync(user, userModel.Password))
+			if (!await userManager.CheckPasswordAsync(user, loginModel.Password))
 			{
 				throw new ValidationException(ResponseConstants.UnauthorizedAccess);
 			}
@@ -60,7 +60,7 @@ namespace FlatRockTechnology.eCommerce.Service.Services
 			return await tokenHandlerService.GenerateToken(user);
 		}
 
-		public async Task<TokenModel> RefreshToken(string refreshToken)
+		public async Task<TokenModel> RefreshTokenAsync(string refreshToken)
 		{
 			var userId = tokenHandlerService.ValidateRefreshToken(refreshToken);
 

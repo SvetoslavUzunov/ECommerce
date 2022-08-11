@@ -19,7 +19,7 @@ namespace FlatRockTechnology.eCommerce.Test.Services
 		}
 
 		[TestMethod]
-		public void SetMethodShoutCorrectSetValue()
+		public void SetMethodShoutSetValue()
 		{
 			var cacheData = CreateCache();
 
@@ -34,7 +34,7 @@ namespace FlatRockTechnology.eCommerce.Test.Services
 		}
 
 		[TestMethod]
-		public void GetMethodShoutReturnCorrectResult()
+		public void GetMethodShoutReturnCorrectValue()
 		{
 			cacheData = CreateCache();
 

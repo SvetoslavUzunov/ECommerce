@@ -25,7 +25,7 @@ namespace FlatRockTechnology.eCommerce.Test.Services
 		}
 
 		[TestMethod]
-		public async Task GetByIdMethodShoutReturnCorrectOrder()
+		public async Task GetByIdMethodShoutReturnOrder()
 		{
 			orderEntity = CreateOrderEntity();
 
@@ -39,11 +39,11 @@ namespace FlatRockTechnology.eCommerce.Test.Services
 		}
 
 		[TestMethod]
-		public async Task GetByIdMethodShoutThrowCorrectException()
+		public async Task GetByIdMethodShoutThrowException()
 			=> await Assert.ThrowsExceptionAsync<ItemNotFoundException>(async () => await orderService.GetByIdAsync(GetOrderId()));
 
 		[TestMethod]
-		public async Task GetAllMethodShoutReturnCorrectOrders()
+		public async Task GetAllMethodShoutReturnOrders()
 		{
 			const int CountOrders = 5;
 
@@ -66,7 +66,7 @@ namespace FlatRockTechnology.eCommerce.Test.Services
 		}
 
 		[TestMethod]
-		public async Task GetAllMethodShoutReturnCorrectException()
+		public async Task GetAllMethodShoutReturnException()
 			=> await Assert.ThrowsExceptionAsync<EmptyCollectionException>(async () => await orderService.GetAllAsync());
 
 		[TestMethod]
@@ -85,7 +85,22 @@ namespace FlatRockTechnology.eCommerce.Test.Services
 		}
 
 		[TestMethod]
-		public async Task EditMethodShoutCorrectEditOrder()
+		public async Task CreateMethodShoutThrowExceptionWhenOrderAlreadyExist()
+		{
+			var orderEntity = CreateOrderEntity();
+
+			orderRepositoryMock
+				.Setup(x => x.CreateAsync(It.IsAny<OrderEntity>()));
+
+			orderRepositoryMock
+				.Setup(x => x.GetByIdAsync(It.IsAny<Guid>()))
+				.ReturnsAsync(orderEntity);
+
+			await Assert.ThrowsExceptionAsync<ItemAlreadyExistException>(async () => await orderService.CreateAsync(CreateOrderModel()));
+		}
+
+		[TestMethod]
+		public async Task EditMethodShoutEditOrder()
 		{
 			Guid editOrderId = GetOrderId();
 
@@ -93,6 +108,10 @@ namespace FlatRockTechnology.eCommerce.Test.Services
 
 			orderRepositoryMock
 				.Setup(x => x.Edit(orderEntity));
+
+			orderRepositoryMock
+				.Setup(x => x.GetByIdAsync(It.IsAny<Guid>()))
+				.ReturnsAsync(orderEntity);
 
 			orderEntity.Id = editOrderId;
 			var orderModel = CreateOrderModel();
@@ -103,7 +122,11 @@ namespace FlatRockTechnology.eCommerce.Test.Services
 		}
 
 		[TestMethod]
-		public async Task DeleteByIdMethodShoutCorrectDeleteOrder()
+		public async Task EditMethodShoutThrowExceptionWhenOrderIsNull()
+			=> await Assert.ThrowsExceptionAsync<ItemNotFoundException>(async () => await orderService.EditAsync(CreateOrderModel()));
+
+		[TestMethod]
+		public async Task DeleteByIdMethodShoutDeleteOrder()
 		{
 			orderEntity = CreateOrderEntity();
 
@@ -114,6 +137,19 @@ namespace FlatRockTechnology.eCommerce.Test.Services
 			await orderService.DeleteByIdAsync(orderEntity.Id);
 
 			unitOfWorkMock.Verify(x => x.CompleteAsync(), Times.Once);
+		}
+
+		[TestMethod]
+		public async Task DeleteMethodShoutThrowExceptionWhenOrderIsNull()
+			=> await Assert.ThrowsExceptionAsync<ItemNotFoundException>(async () => await orderService.DeleteByIdAsync(GetOrderId()));
+
+		[TestMethod]
+		public async Task DeleteMethodShoutThrowExceptionWhenOrderAlreadyIsDeleted()
+		{
+			var orderModel = CreateOrderModel();
+			orderModel.IsActive = false;
+
+			await Assert.ThrowsExceptionAsync<ItemNotFoundException>(async () => await orderService.DeleteByIdAsync(orderModel.Id));
 		}
 
 		private OrderModel CreateOrderModel()

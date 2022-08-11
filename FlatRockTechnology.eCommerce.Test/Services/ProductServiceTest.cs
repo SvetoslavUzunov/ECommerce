@@ -25,7 +25,7 @@ namespace FlatRockTechnology.eCommerce.Test.Services
 		}
 
 		[TestMethod]
-		public async Task GetByIdMethodShoutReturnCorrectProduct()
+		public async Task GetByIdMethodShoutReturnProduct()
 		{
 			productEntity = CreateProductEntity();
 
@@ -39,11 +39,11 @@ namespace FlatRockTechnology.eCommerce.Test.Services
 		}
 
 		[TestMethod]
-		public async Task GetByIdMethodShoutThrowCorrectException()
+		public async Task GetByIdMethodShoutThrowException()
 			=> await Assert.ThrowsExceptionAsync<ItemNotFoundException>(async () => await productService.GetByIdAsync(GetProductId()));
 
 		[TestMethod]
-		public async Task GetAllMethodShoutReturnCorrectProducts()
+		public async Task GetAllMethodShoutReturnProducts()
 		{
 			const int CountProducts = 5;
 
@@ -66,11 +66,11 @@ namespace FlatRockTechnology.eCommerce.Test.Services
 		}
 
 		[TestMethod]
-		public async Task GetAllMethodShoutThrowCorrectException()
+		public async Task GetAllMethodShoutThrowException()
 			=> await Assert.ThrowsExceptionAsync<EmptyCollectionException>(async () => await productService.GetAllAsync());
 
 		[TestMethod]
-		public async Task CreateMethodShoutCorrectCreateProduct()
+		public async Task CreateMethodShoutCreateProduct()
 		{
 			productEntity = CreateProductEntity();
 
@@ -78,21 +78,39 @@ namespace FlatRockTechnology.eCommerce.Test.Services
 				.Setup(x => x.CreateAsync(productEntity));
 
 			var productModel = CreateProductModel();
-
 			var createdProduct = await productService.CreateAsync(productModel);
 
 			Assert.AreEqual(productEntity.Name, createdProduct.Name);
 		}
 
 		[TestMethod]
-		public async Task EditMethodShoutCorrectEditProduct()
+		public async Task CreateMethodShoutThrowExceptionWhenProductAlreadyExist()
+		{
+			productEntity = CreateProductEntity();
+
+			productRepositoryMock
+				.Setup(x => x.CreateAsync(It.IsAny<ProductEntity>()));
+
+			productRepositoryMock
+				.Setup(x => x.GetByIdAsync(It.IsAny<Guid>()))
+				.ReturnsAsync(productEntity);
+
+			await Assert.ThrowsExceptionAsync<ItemAlreadyExistException>(async () => await productService.CreateAsync(CreateProductModel()));
+		}
+
+		[TestMethod]
+		public async Task EditMethodShoutEditProduct()
 		{
 			const string EditProductName = "IChangedYourName";
 
 			productEntity = CreateProductEntity();
 
 			productRepositoryMock
-				.Setup(x => x.Edit(productEntity));
+				.Setup(x => x.Edit(It.IsAny<ProductEntity>()));
+
+			productRepositoryMock
+				.Setup(x => x.GetByIdAsync(It.IsAny<Guid>()))
+				.ReturnsAsync(productEntity);
 
 			productEntity.Name = EditProductName;
 			var productModel = CreateProductModel();
@@ -103,7 +121,11 @@ namespace FlatRockTechnology.eCommerce.Test.Services
 		}
 
 		[TestMethod]
-		public async Task DeleteByIdMethodShoutCorrectDeleteProduct()
+		public async Task EditMethodShoutThrowExceptionWhenProductIsNull()
+			=> await Assert.ThrowsExceptionAsync<ItemNotFoundException>(async () => await productService.EditAsync(CreateProductModel()));
+
+		[TestMethod]
+		public async Task DeleteByIdMethodShoutDeleteProduct()
 		{
 			productEntity = CreateProductEntity();
 
@@ -114,6 +136,19 @@ namespace FlatRockTechnology.eCommerce.Test.Services
 			await productService.DeleteByIdAsync(productEntity.Id);
 
 			unitOfWorkMock.Verify(x => x.CompleteAsync(), Times.Once);
+		}
+
+		[TestMethod]
+		public async Task DeleteMethodShoutThrowExceptionWhenProductIsNull()
+			=> await Assert.ThrowsExceptionAsync<ItemNotFoundException>(async () => await productService.DeleteByIdAsync(GetProductId()));
+
+		[TestMethod]
+		public async Task DeleteMethodShoutThrowExceptionWhenProductAlreadyIsDeleted()
+		{
+			var productModel = CreateProductModel();
+			productModel.IsActive = false;
+
+			await Assert.ThrowsExceptionAsync<ItemNotFoundException>(async () => await productService.DeleteByIdAsync(productModel.Id));
 		}
 
 		private ProductModel CreateProductModel()

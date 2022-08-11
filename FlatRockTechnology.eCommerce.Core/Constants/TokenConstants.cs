@@ -3,5 +3,6 @@
 	public static class TokenConstants
 	{
 		public const string Policy = "ValidAccessToken";
+		public const int CountDays = 1;
 	}
 }

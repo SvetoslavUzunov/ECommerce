@@ -1,8 +1,8 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using System.Text;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-using System.Text;
 
-namespace FlatRockTechnology.eCommerce.Core.Providers
+namespace FlatRockTechnology.eCommerce.Core.Provider
 {
 	public class TokenSettings
 	{

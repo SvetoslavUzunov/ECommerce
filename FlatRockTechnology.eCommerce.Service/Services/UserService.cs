@@ -57,7 +57,14 @@ namespace FlatRockTechnology.eCommerce.Service.Services
 
 		public async Task<UserModel> CreateAsync(UserModel userModel)
 		{
-			var user = new UserEntity
+			var user = await userRepository.GetByIdAsync(userModel.Id);
+
+			if (user != null)
+			{
+				throw new ItemAlreadyExistException();
+			}
+
+			user = new UserEntity
 			{
 				UserName = userModel.UserName,
 				Email = userModel.Email
@@ -71,14 +78,18 @@ namespace FlatRockTechnology.eCommerce.Service.Services
 
 		public async Task<UserModel> EditAsync(UserModel userModel)
 		{
-			var user = new UserEntity
+			var user = await userRepository.GetByIdAsync(userModel.Id);
+
+			if (user == null)
 			{
-				Id = userModel.Id,
-				UserName = userModel.UserName,
-				Email = userModel.Email,
-				FirstName = userModel.FirstName,
-				LastName = userModel.LastName
-			};
+				throw new ItemNotFoundException();
+			}
+
+			user.Id = userModel.Id;
+			user.UserName = userModel.UserName;
+			user.Email = userModel.Email;
+			user.FirstName = userModel.FirstName;
+			user.LastName = userModel.LastName;
 
 			userRepository.Edit(user);
 			await unitOfWork.CompleteAsync();

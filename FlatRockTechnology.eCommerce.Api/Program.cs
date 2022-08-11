@@ -13,7 +13,9 @@ builder.Services.AddMemoryCache();
 builder.Services.AddServices();
 
 builder.Services.AddControllers();
+
 builder.Services.AddEndpointsApiExplorer();
+
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
@@ -36,9 +38,11 @@ app.UseStatusCodePages(Text.Plain, "Status Code Page: {0}");
 await app.SeedDataAsync();
 
 app.UseHttpsRedirection();
+
 app.UseStaticFiles();
 
 app.UseAuthentication();
+
 app.UseAuthorization();
 
 app.MapControllers();

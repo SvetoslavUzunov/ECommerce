@@ -4,6 +4,7 @@ using FlatRockTechnology.eCommerce.Core.Contracts.Repositories;
 using FlatRockTechnology.eCommerce.Repository.Repositories;
 using FlatRockTechnology.eCommerce.DataLayer;
 using FlatRockTechnology.eCommerce.Core.Contracts.Patterns;
+using FlatRockTechnology.eCommerce.Repository.Patterns;
 
 namespace FlatRockTechnology.eCommerce.Repository
 {

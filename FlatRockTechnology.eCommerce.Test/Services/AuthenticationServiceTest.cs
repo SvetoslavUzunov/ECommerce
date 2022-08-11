@@ -28,7 +28,7 @@ namespace FlatRockTechnology.eCommerce.Test.Services
 		}
 
 		[TestMethod]
-		public async Task RegisterMethodShoutCorrectRegisterUser()
+		public async Task RegisterMethodShoutRegisterUser()
 		{
 			userRegistrationModel = CreateRegistrationModel();
 
@@ -47,14 +47,14 @@ namespace FlatRockTechnology.eCommerce.Test.Services
 		}
 
 		[TestMethod]
-		public async Task LoginMethodShoutCorrectSendAccessAndRefreshToken()
+		public async Task LoginMethodShoutSendAccessAndRefreshToken()
 			=> await LoginBase();
 
 		[TestMethod]
 		public async Task RefreshTokenMethodShoutReturnNewAccessToken()
 		{
 			authenticationServiceMock
-				.Setup(x => x.RefreshToken(It.IsAny<string>()))
+				.Setup(x => x.RefreshTokenAsync(It.IsAny<string>()))
 				.ReturnsAsync(It.IsAny<TokenModel>());
 
 			tokenHandlerServiceMock
@@ -69,7 +69,7 @@ namespace FlatRockTechnology.eCommerce.Test.Services
 
 			var tokenModel = await LoginBase();
 
-			await authenticationService.RefreshToken(tokenModel.RefreshToken);
+			await authenticationService.RefreshTokenAsync(tokenModel.RefreshToken);
 		}
 
 		private async Task<TokenModel> LoginBase()
